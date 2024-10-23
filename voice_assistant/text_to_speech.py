@@ -11,13 +11,14 @@ from elevenlabs.client import ElevenLabs
 from cartesia import Cartesia
 
 from voice_assistant.local_tts_generation import generate_audio_file_melotts
+from voice_assistant.config import Config
 
 def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, local_model_path:str=None):
     """
     Convert text to speech using the specified model.
     
     Args:
-    model (str): The model to use for TTS ('openai', 'deepgram', 'elevenlabs', 'local').
+    model (str): The model to use for TTS ('openai', 'deepgram', 'elevenlabs', 'cartesia', 'melotts', 'localai', 'local').
     api_key (str): The API key for the TTS service.
     text (str): The text to convert to speech.
     output_file_path (str): The path to save the generated speech audio file.
@@ -101,7 +102,18 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
 
         elif model == "melotts": # this is a local model
             generate_audio_file_melotts(text=text, filename=output_file_path)
-        
+
+        elif model == 'localai':
+            client = OpenAI(api_key=api_key, base_url=Config.LOCALAI_BASE_URL)
+            speech_response = client.audio.speech.create(
+                model=Config.TTS_MODEL,
+                voice=Config.TTS_VOICE,
+                input=text,
+                extra_body={"backend": Config.LOCALAI_TTS_BACKEND, "language": Config.LOCALAI_TTS_LANGUAGE},
+            )
+
+            speech_response.stream_to_file(output_file_path)
+
         elif model == 'local':
             with open(output_file_path, "wb") as f:
                 f.write(b"Local TTS audio data")
