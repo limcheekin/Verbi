@@ -29,8 +29,8 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
         if model == 'openai':
             client = OpenAI(api_key=api_key)
             speech_response = client.audio.speech.create(
-                model="tts-1",
-                voice="nova",
+                model=Config.TTS_API_MODEL,
+                voice=Config.TTS_API_VOICE,
                 input=text
             )
 
@@ -106,8 +106,8 @@ def text_to_speech(model: str, api_key:str, text:str, output_file_path:str, loca
         elif model == 'localai':
             client = OpenAI(api_key=api_key, base_url=Config.LOCALAI_BASE_URL)
             speech_response = client.audio.speech.create(
-                model=Config.TTS_MODEL,
-                voice=Config.TTS_VOICE,
+                model=Config.TTS_API_MODEL,
+                voice=Config.TTS_API_VOICE,
                 input=text,
                 extra_body={"backend": Config.LOCALAI_TTS_BACKEND, "language": Config.LOCALAI_TTS_LANGUAGE},
             )

@@ -48,8 +48,8 @@ class Config:
     # for serving the MeloTTS model
     TTS_PORT_LOCAL = int(os.getenv("TTS_PORT_LOCAL", "5150"))
 
-    TTS_MODEL = os.getenv("TTS_MODEL", "tts-1")
-    TTS_VOICE = os.getenv("TTS_VOICE", "nova")
+    TTS_API_MODEL = os.getenv("TTS_API_MODEL", "tts-1")
+    TTS_API_VOICE = os.getenv("TTS_API_VOICE", "nova")
     LOCALAI_TTS_BACKEND = os.getenv("LOCALAI_TTS_BACKEND")
     LOCALAI_TTS_LANGUAGE = os.getenv("LOCALAI_TTS_LANGUAGE", "en")
 
