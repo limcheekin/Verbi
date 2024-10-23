@@ -14,7 +14,7 @@ def generate_response(model:str, api_key:str, chat_history:list, local_model_pat
     Generate a response using the specified model.
     
     Args:
-    model (str): The model to use for response generation ('openai', 'groq', 'local').
+    model (str): The model to use for response generation ('openai', 'groq', 'ollama', 'localai', 'local').
     api_key (str): The API key for the response generation service.
     chat_history (list): The chat history as a list of messages.
     local_model_path (str): The path to the local model (if applicable).
@@ -29,6 +29,8 @@ def generate_response(model:str, api_key:str, chat_history:list, local_model_pat
             return _generate_groq_response(api_key, chat_history)
         elif model == 'ollama':
             return _generate_ollama_response(chat_history)
+        elif model == 'localai':
+            return _generate_localai_response(api_key, chat_history)          
         elif model == 'local':
             # Placeholder for local LLM response generation
             return "Generated response from local model"
@@ -62,3 +64,11 @@ def _generate_ollama_response(chat_history):
         messages=chat_history,
     )
     return response['message']['content']
+
+def _generate_localai_response(api_key, chat_history):
+    client = OpenAI(api_key=api_key, base_url=Config.LOCALAI_BASE_URL)
+    response = client.chat.completions.create(
+        model=Config.LOCALAI_LLM,
+        messages=chat_history
+    )
+    return response.choices[0].message.content
