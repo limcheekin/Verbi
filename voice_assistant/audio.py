@@ -5,6 +5,7 @@ import pygame
 import time
 import logging
 import pydub
+import os
 from io import BytesIO
 from pydub import AudioSegment
 from functools import lru_cache
@@ -74,11 +75,28 @@ def play_audio(file_path):
     file_path (str): The path to the audio file to play.
     """
     try:
+        # Initialize the mixer
         pygame.mixer.init()
-        pygame.mixer.music.load(file_path)
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            pygame.time.wait(100)
+        
+        # Determine the file format based on the extension
+        _, ext = os.path.splitext(file_path)
+        
+        if ext.lower() == '.wav':
+            # Use pygame.mixer.Sound for WAV files
+            sound = pygame.mixer.Sound(file_path)
+            sound.play()
+            # Wait for the sound to finish playing
+            while pygame.mixer.get_busy():
+                pygame.time.wait(100)
+        elif ext.lower() == '.mp3':
+            # Use pygame.mixer.music for MP3 files
+            pygame.mixer.music.load(file_path)
+            pygame.mixer.music.play()
+            # Wait for the music to finish playing
+            while pygame.mixer.music.get_busy():
+                pygame.time.wait(100)
+        else:
+            print("Unsupported audio format:", ext)
     except pygame.error as e:
         logging.error(f"Failed to play audio: {e}")
     except Exception as e:
