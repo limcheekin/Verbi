@@ -9,8 +9,9 @@ from colorama import Fore, init
 from openai import OpenAI
 from groq import Groq
 from deepgram import DeepgramClient,PrerecordedOptions,FileSource
+from voice_assistant.config import Config
 
-fast_url = "http://localhost:8000"
+fast_url = Config.FAST_WHISPER_API_BASE_URL
 checked_fastwhisperapi = False
 
 def check_fastwhisperapi():
@@ -31,7 +32,7 @@ def transcribe_audio(model, api_key, audio_file_path, local_model_path=None):
     Transcribe an audio file using the specified model.
     
     Args:
-        model (str): The model to use for transcription ('openai', 'groq', 'deepgram', 'fastwhisper', 'local').
+        model (str): The model to use for transcription ('openai', 'groq', 'deepgram', 'fastwhisperapi', 'local').
         api_key (str): The API key for the transcription service.
         audio_file_path (str): The path to the audio file to transcribe.
         local_model_path (str): The path to the local model (if applicable).
@@ -108,7 +109,7 @@ def _transcribe_with_fastwhisperapi(audio_file_path):
         'initial_prompt': None,
         'vad_filter': True,
     }
-    headers = {'Authorization': 'Bearer dummy_api_key'}
+    headers = {'Authorization': f'Bearer {Config.FAST_WHISPER_API_KEY}'}
 
     response = requests.post(endpoint, files=files, data=data, headers=headers)
     response_json = response.json()

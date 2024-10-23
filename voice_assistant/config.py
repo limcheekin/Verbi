@@ -43,6 +43,7 @@ class Config:
     CARTESIA_API_KEY = os.getenv("CARTESIA_API_KEY")
     LOCALAI_BASE_URL = os.getenv("LOCALAI_BASE_URL")
     FAST_WHISPER_API_BASE_URL = os.getenv("FAST_WHISPER_API_BASE_URL")
+    FAST_WHISPER_API_KEY = os.getenv("FAST_WHISPER_API_KEY", "dummy_api_key")    
 
     # for serving the MeloTTS model
     TTS_PORT_LOCAL = int(os.getenv("TTS_PORT_LOCAL", "5150"))
