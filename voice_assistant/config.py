@@ -44,6 +44,7 @@ class Config:
     LOCALAI_BASE_URL = os.getenv("LOCALAI_BASE_URL")
     FAST_WHISPER_API_BASE_URL = os.getenv("FAST_WHISPER_API_BASE_URL")
     FAST_WHISPER_API_KEY = os.getenv("FAST_WHISPER_API_KEY", "dummy_api_key")    
+    FAST_WHISPER_API_MODEL = os.getenv("FAST_WHISPER_API_MODEL", "base")
 
     # for serving the MeloTTS model
     TTS_PORT_LOCAL = int(os.getenv("TTS_PORT_LOCAL", "5150"))
