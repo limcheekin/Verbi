@@ -105,7 +105,7 @@ def _transcribe_with_fastwhisperapi(audio_file_path):
     files = {'file': (audio_file_path, open(audio_file_path, 'rb'))}
     data = {
         'model': Config.FAST_WHISPER_API_MODEL,
-        'language': "en",
+        'language': Config.FAST_WHISPER_API_LANGUAGE,
         'initial_prompt': None,
         'vad_filter': True,
     }
